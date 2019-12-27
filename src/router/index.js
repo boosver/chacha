@@ -1,13 +1,19 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-const Index = () => import("@/pages/Index/Index");
-Vue.use(VueRouter);
 
+Vue.use(VueRouter);
+const Index = () => import("@/pages/Index");
+const User = () => import("@/pages/User");
 const routes = [
   {
     path: "/",
     name: "Index",
     component: Index
+  },
+  {
+    path: "/user",
+    name: "User",
+    component: User
   },
 ];
 
