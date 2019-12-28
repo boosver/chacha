@@ -1,7 +1,7 @@
 <template>
   <div>
       12312312
-      <Tab></Tab>
+      <Tab :active="2"></Tab>
   </div>
 </template>
 

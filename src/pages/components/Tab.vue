@@ -2,10 +2,10 @@
   <div>
     <van-tabbar v-model="active" :safe-area-inset-bottom="true" :border="false">
       <van-tabbar-item icon="apps-o" url="/"></van-tabbar-item>
-      <van-tabbar-item>
+      <van-tabbar-item url="/w/serch">
         <img  height="50" slot="icon" slot-scope="props" :src="props.active ? icon.active : icon.inactive" />
       </van-tabbar-item>
-      <van-tabbar-item icon="contact" url="/user"></van-tabbar-item>
+      <van-tabbar-item icon="contact" url="/w/user"></van-tabbar-item>
     </van-tabbar>
   </div>
 </template>
@@ -17,9 +17,14 @@ import "vant/lib/tabbar/style";
 import "vant/lib/tabbar-item/style";
 Vue.use(Tabbar).use(TabbarItem);
 export default {
+  props:{
+    active:{
+      type:Number,
+      default:0
+    }
+  },
   data() {
     return {
-      active: 0,
       icon: {
         active: "http://wx.gkapay.com/images/face.png",
         inactive: "http://wx.gkapay.com/images/face_hui.png"
