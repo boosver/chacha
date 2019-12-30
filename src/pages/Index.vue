@@ -22,22 +22,22 @@
 			</div>
 			<div class="icon_container">
 				<div class="icon_list bgc">
-					<img src="../assets/logo.png">
+					<img src="../assets/img_1.png">
 					<p>1.上传照片</p>
 					<span>上传多张图片将<strong>提高搜索结果的质量</strong></span>
 				</div>
 				<div class="icon_list">
-					<img src="../assets/logo.png">
+					<img src="../assets/img_2.png">
 					<p>2.选择人脸</p>
 					<span>上传的人脸必须属于<strong>一个人</strong>，并且照片中的人脸必须<strong>清晰可见</strong></span>
 				</div>
 				<div class="icon_list bgc">
-					<img src="../assets/logo.png">
+					<img src="../assets/img_3.png">
 					<p>3.搜索我们的网络数据库</p>
 					<span>我们的网络数据库拥有完善的管理，搜索结果将在<strong>几秒内</strong>准备好！</span>
 				</div>
 				<div class="icon_list">
-					<img src="../assets/logo.png">
+					<img src="../assets/img_4.png">
 					<p>4.订阅提醒</p>
 					<span>每次人脸搜索遇到您正在寻找的人脸，您将收到<strong>短信通知</strong></span>
 				</div>
@@ -82,7 +82,7 @@
 			<div class="try-alerts">
 				<div class="container">
 					<div>
-						<h1>人脸搜索 <span>提醒</span></h1>
+						<h1>私查查 <span>提醒</span></h1>
 						<p>您的脸出现在<br>互联网上</p>
 						<p>您是否想过您上传到网上的照片发生了什么？</p>
 						<p>您想知道是否有人非法使用您的图像吗？</p>
@@ -97,7 +97,7 @@
 			<div class="paliscope">
 				<div class="container">
 					<div>
-						<p>人脸搜索积极参与打击网络犯罪。因此，我们与来自波兰的YLIPOB公司合作，该公司为在线调查和执法机构编写了专业软件。<br><br>利用人脸搜索和YLIPOB加强您的在线调查！</p>
+						<p>私查查竭尽全力，不间断的抓取国外X站数据，以保证最全最精准的匹配，帮助您及时发现隐私漏洞以防被不法分子利用<br><br>马上利用私查查开始您的隐私安全生活吧！</p>
 					</div>
 				</div>
 			</div>
@@ -106,11 +106,11 @@
 					<img src="../assets/logo-white.png"/>
 					<div>
 						<p>
-							最好的人脸搜索结果只提供给高级会员。高级会员搜索可提高搜索结果的质量，并解锁每一个结果。
+							最好的私查查结果只提供给高级会员。高级会员搜索可提高搜索结果的质量，并解锁每一个结果。
 						</p>
-						<a href="javascript:;" class="btn">
+						<router-link to="/w/pay" href="javascript:;" class="btn">
 							<span>前往购买</span>
-						</a>
+						</router-link>
 					</div>
 				</div>
 			</div>

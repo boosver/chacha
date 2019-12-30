@@ -5,6 +5,7 @@ Vue.use(VueRouter);
 const Index = () => import("@/pages/Index");
 const Search = () => import("@/pages/Search");
 const User = () => import("@/pages/User");
+const Pay = () => import("@/pages/Pay");
 const routes = [
   {
     path: "/",
@@ -26,9 +27,17 @@ const routes = [
     path: "/w/user",
     name: "User",
     component: User,
-    meta:{
+    meta: {
       title: '个人中心'
-  }
+    }
+  },
+  {
+    path: "/w/pay",
+    name: "Pay",
+    component: Pay,
+    meta: {
+      title: '服务购买'
+    }
   },
 ];
 
