@@ -2,11 +2,17 @@ import Vue from "vue";
 import App from "./App.vue";
 import router from "./router";
 import store from "./store";
-import Axios from 'axios'
+import axios from 'axios'
 Vue.config.productionTip = false;
+// Axios.defaults.headers.common = {
+//   'X-CSRF-TOKEN':document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+//   'X-Requested-With': 'XMLHttpRequest'
+// };
+ //将axios挂载在Vue扩展上
+ axios.defaults.withCredentials = true
+ Vue.prototype.$ajax=axios
 
-Vue.prototype.$ajax = Axios
-Vue.apis = 'http://wx.gkapay.com'
+Vue.apis = 'http://wx.gkapay.com/'
 new Vue({
   router,
   store,

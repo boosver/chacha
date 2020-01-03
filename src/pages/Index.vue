@@ -108,7 +108,7 @@
 						<p>
 							最好的私查查结果只提供给高级会员。高级会员搜索可提高搜索结果的质量，并解锁每一个结果。
 						</p>
-						<router-link to="/w/pay" href="javascript:;" class="btn">
+						<router-link to="/pay" href="javascript:;" class="btn">
 							<span>前往购买</span>
 						</router-link>
 					</div>

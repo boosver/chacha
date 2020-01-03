@@ -2,10 +2,10 @@
   <div>
     <van-tabbar v-model="active" :safe-area-inset-bottom="true" :border="false">
       <van-tabbar-item icon="apps-o" url="/"></van-tabbar-item>
-      <van-tabbar-item url="/w/serch">
+      <van-tabbar-item url="/serch">
         <img  height="50" slot="icon" slot-scope="props" :src="props.active ? icon.active : icon.inactive" />
       </van-tabbar-item>
-      <van-tabbar-item icon="contact" url="/w/user"></van-tabbar-item>
+      <van-tabbar-item icon="contact" url="/user"></van-tabbar-item>
     </van-tabbar>
   </div>
 </template>

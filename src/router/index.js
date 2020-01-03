@@ -1,6 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-
+import Axios from 'axios'
 Vue.use(VueRouter);
 const Index = () => import("@/pages/Index");
 const Search = () => import("@/pages/Search");
@@ -16,7 +16,7 @@ const routes = [
     }
   },
   {
-    path: "/w/serch",
+    path: "/serch",
     name: "Search",
     component: Search,
     meta: {
@@ -24,7 +24,7 @@ const routes = [
     }
   },
   {
-    path: "/w/user",
+    path: "/user",
     name: "User",
     component: User,
     meta: {
@@ -32,7 +32,7 @@ const routes = [
     }
   },
   {
-    path: "/w/pay",
+    path: "/pay",
     name: "Pay",
     component: Pay,
     meta: {
