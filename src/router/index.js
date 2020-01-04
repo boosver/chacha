@@ -45,7 +45,7 @@ const routes = [
     name: "Callback",
     component: Callback,
     meta: {
-      title: '授权'
+      title: '请稍后...'
     }
   },
 ];
@@ -62,18 +62,18 @@ router.beforeEach((to, from, next) => {
   }
   console.log()
   if (to.path != '/callback') {
-    // Axios
-    //   .post("/api/index", {})
-    //   .then(r => {
-    //     if(r.data.code == 0){
-    //       window.location.href = r.data.url
-    //     }
+    Axios
+      .post("/api/index", {})
+      .then(r => {
+        if(r.data.code == 0){
+          window.location.href = r.data.url
+        }
         
 
-    //   })
-    //   .catch(error => {
+      })
+      .catch(error => {
 
-    //    });
+       });
   }
 
   next()

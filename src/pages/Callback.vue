@@ -1,7 +1,6 @@
 <template>
   <div>
-      callback
-      <Tab :active="2"></Tab>
+  请稍后...
   </div>
 </template>
 
@@ -22,10 +21,17 @@ export default {
         }
     })
     .then(r => {
+        this.$router.push({
+            path:'/'
+        })
         //window.location.href=r.data.url
       
     })
-    .catch(error => { });
+    .catch(error => { 
+                this.$router.push({
+            path:'/'
+        })
+    });
   },
   components:{
       Tab

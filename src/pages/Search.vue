@@ -6,7 +6,7 @@
     </div>
 
     <div class="search">
-      <h2>人脸识别</h2>
+      <h2>私查查搜索</h2>
       <div class="serarch_box">
         <img src="../assets/icon/weibiaoti1.png" class="search_icon" />
         <span>点击上传人脸照片...</span>
@@ -44,6 +44,23 @@ export default {
   },
   components: {
     Tab
+  },
+  created() {
+    this.customerInfo();
+    //this.customerInfo2();
+
+  },
+  methods: {
+    customerInfo() {
+      this.$ajax
+      .post("/api/customer/info", {})
+      .then(r => {
+        this.$data.info = r.data
+      })
+      .catch(error => {
+
+       });
+    }
   }
 };
 </script>

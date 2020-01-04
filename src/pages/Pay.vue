@@ -10,29 +10,35 @@
 <script>
 import wx from "weixin-js-sdk";
 import Vue from "vue";
-import { Button } from "vant";
+import { Button,Dialog } from "vant";
 import "vant/lib/button/style";
+import "vant/lib/dialog/style";
 Vue.use(Button);
 export default {
   data() {
     return {
-      key: []
+      key: [],
+      toto:1
     };
   },
   created() {
     //this.jssdk();
     //this.customerInfo2();
+
   },
   mounted() {
+
     console.log(Vue.apis);
   },
   methods: {
     jssdk(toto) {
+      this.$data.toto = toto
       this.$ajax
         .post("/api/pay/place/an/order", {
           total_fee: toto
         })
         .then(r => {
+          let self = this;
           WeixinJSBridge.invoke(
             "getBrandWCPayRequest",
             {
@@ -43,18 +49,46 @@ export default {
               signType: r.data.signType,
               paySign: r.data.paySign
             },
-            function(res) {
-              this.key = res.data;
-              alert(JSON.stringify(res));
+            (res)  => {
+            
               if (res.err_msg == "get_brand_wcpay_request:ok") {
                 // 使用以上方式判断前端返回,微信团队郑重提示：
                 // res.err_msg将在用户支付成功后返回
                 // ok，但并不保证它绝对可靠。
+                Dialog.alert({
+                  title: '恭喜',
+                  message: '您一定等不及了快去查询吧'
+                }).then(() => {
+                  self.$router.push({
+                    path:'/serch'
+                  })
+                });
+              }
+              if(res.err_msg == 'get_brand_wcpay_request:cancel'){
+                  Dialog.confirm({
+                    title: '亲!',
+                    message: '您真的不想查一下自己有没有暴露在互联网吗?',
+                    confirmButtonText:'还是查一下吧',
+                    cancelButtonText:'算了吧'
+                  }).then(() => {
+                    self.jssdk(this.$data.toto);
+                  }).catch(() => {
+                    // on cancel
+                  });
+              }
+              if(res.err_msg == 'get_brand_wcpay_request:fail'){
+                Dialog.alert({
+                  title: '抱歉',
+                  message: '支付失败，如有问题请联系客服微信:boosver'
+                }).then(() => {
+                  // on close
+                });
               }
             }
           );
         })
-        .catch(error => {});
+        .catch(error => {
+        });
     },
     goPay() {
       wx.chooseWXPay({
