@@ -1,16 +1,19 @@
 
 module.exports = {
     lintOnSave: false,
-    proxy: {
-        //配置跨域
-        '/api': {
-            target: "http://wx.gkapay.com/api",
-            ws: true,
-            changOrigin: true,
-            pathRewrite: {
-                '^/api': '/'
+    devServer: {
+        proxy: {
+            //配置跨域
+            '/api': {
+                target: "http://wx.gkapay.com",
+                ws: true,
+                changOrigin: true,
+                pathRewrite: {
+                    '^/api': '/api'
+                }
             }
         }
     }
+
 
 }

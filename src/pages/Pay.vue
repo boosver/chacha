@@ -21,23 +21,15 @@ export default {
   },
   created() {
     //this.jssdk();
-    this.customerInfo();
+    //this.customerInfo2();
   },
   mounted() {
     console.log(Vue.apis);
   },
   methods: {
-    customerInfo() {
-      this.$ajax
-        .post("/api/index", {})
-        .then(r => {
-          console.log(r);
-        })
-        .catch(error => {});
-    },
     jssdk(toto) {
       this.$ajax
-        .post(Vue.apis + "/pay/place/an/order", {
+        .post("/api/pay/place/an/order", {
           total_fee: toto
         })
         .then(r => {

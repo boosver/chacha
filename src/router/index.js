@@ -6,6 +6,7 @@ const Index = () => import("@/pages/Index");
 const Search = () => import("@/pages/Search");
 const User = () => import("@/pages/User");
 const Pay = () => import("@/pages/Pay");
+const Callback = () => import("@/pages/Callback");
 const routes = [
   {
     path: "/",
@@ -39,6 +40,14 @@ const routes = [
       title: '服务购买'
     }
   },
+  {
+    path: "/callback",
+    name: "Callback",
+    component: Callback,
+    meta: {
+      title: '授权'
+    }
+  },
 ];
 
 const router = new VueRouter({
@@ -51,6 +60,22 @@ router.beforeEach((to, from, next) => {
   if (to.meta.title) {
     document.title = to.meta.title
   }
+  console.log()
+  if (to.path != '/callback') {
+    // Axios
+    //   .post("/api/index", {})
+    //   .then(r => {
+    //     if(r.data.code == 0){
+    //       window.location.href = r.data.url
+    //     }
+        
+
+    //   })
+    //   .catch(error => {
+
+    //    });
+  }
+
   next()
 })
 export default router;
