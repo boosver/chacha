@@ -1,5 +1,12 @@
 <template>
   <div class="wrapper">
+    <van-notice-bar
+  color="#FF0000"
+  background="#ecf9ff"
+  left-icon="info-o"
+>
+  私查查郑重提醒:您上传的图片我们不会保存!
+</van-notice-bar>
     <div class="mark">
       <div class="purple"></div>
       <img src="../assets/search_background_small.jpg" />
@@ -7,24 +14,24 @@
 
     <div class="search">
       <h2>私查查搜索</h2>
-      <div class="serarch_box">
+      <div class="serarch_box" @click="imgUp()">
         <img src="../assets/icon/weibiaoti1.png" class="search_icon" />
         <span>点击上传人脸照片...</span>
         <img src="../assets/icon/fangdajing.png" class="search_icon" />
       </div>
       <br />
       <div class="icon_container">
-        <div class="icon_list bgc">
+        <!-- <div class="icon_list bgc">
           <img src="../assets/jinzhi.png" />
           <p>相似度80%</p>
           <span>
             <a style="color:#1989fa;">http://www.baidu.com</a>
             <br />
-			<br />
+			      <br />
            <van-button plain hairline type="info">点击查看详情</van-button>
 
           </span>
-        </div>
+        </div>-->
       </div>
       <br />
     </div>
@@ -33,11 +40,14 @@
 </template>
 
 <script>
+import wx from "weixin-js-sdk";
 import Tab from "./components/Tab";
 import Vue from "vue";
-import { Button } from "vant";
+import { Button,NoticeBar  } from "vant";
 import "vant/lib/button/style";
+import "vant/lib/notice-bar/style";
 Vue.use(Button);
+Vue.use(NoticeBar);
 export default {
   data() {
     return {};
@@ -46,20 +56,77 @@ export default {
     Tab
   },
   created() {
+    this.jssdk();
     this.customerInfo();
     //this.customerInfo2();
-
   },
   methods: {
+    jssdk() {
+      this.$ajax
+        .post("/api/jssdk", {
+          lurl: location.href.split("#")[0]
+        })
+        .then(r => {
+          this.wxConfigFun(r.data);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
     customerInfo() {
       this.$ajax
-      .post("/api/customer/info", {})
-      .then(r => {
-        this.$data.info = r.data
-      })
-      .catch(error => {
+        .post("/api/customer/info", {})
+        .then(r => {
+          this.$data.info = r.data;
+        })
+        .catch(error => {});
+    },
+    //jssdk验签
+    wxConfigFun(jssdk) {
+      //var jssdk = this.$data.jssdk;
+      //console.log(jssdk)
+      wx.config({
+        debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+        appId: jssdk.appId, // 必填，公众号的唯一标识
+        timestamp: jssdk.timestamp, // 必填，生成签名的时间戳
+        nonceStr: jssdk.nonceStr, // 必填，生成签名的随机串
+        signature: jssdk.signature, // 必填，签名
+        jsApiList: [
+          "updateAppMessageShareData",
+          "updateTimelineShareData",
+          "onMenuShareTimeline",
+          "onMenuShareAppMessage",
+          "chooseImage",
+          "uploadImage"
+        ] // 必填，需要使用的JS接口列表
+      });
+      //this.shareData();
+      var that = this;
+      wx.ready(function() {
+        wx.checkJsApi({
+          jsApiList: ["chooseImage", "uploadImage"], // 需要检测的JS接口列表，所有JS接口列表见附录2,
+          success: function(res) {
 
-       });
+            console.log(res)
+            if (res.errMsg == "checkJsApi:ok") {
+            }
+          }
+        });
+        // config信息验证后会执行ready方法，所有接口调用都必须在config接口获得结果之后，config是一个客户端的异步操作，所以如果需要在页面加载时就调用相关接口，则须把相关接口放在ready函数中调用来确保正确执行。对于用户触发时才调用的接口，则可以直接调用，不需要放在ready函数中。
+      });
+      wx.error(function(res) {
+        // config信息验证失败会执行error函数，如签名过期导致验证失败，具体错误信息可以打开config的debug模式查看，也可以在返回的res参数中查看，对于SPA可以在这里更新签名。
+      });
+    },
+    imgUp() {
+      wx.chooseImage({
+        count: 1, // 默认9
+        sizeType: ["original", "compressed"], // 可以指定是原图还是压缩图，默认二者都有
+        sourceType: ["album", "camera"], // 可以指定来源是相册还是相机，默认二者都有
+        success: function(res) {
+          var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
+        }
+      });
     }
   }
 };
