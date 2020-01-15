@@ -13,7 +13,7 @@ const routes = [
     name: "Index",
     component: Index,
     meta: {
-      title: '私查查'
+      title: '国卡网'
     }
   },
   {
@@ -61,15 +61,14 @@ router.beforeEach((to, from, next) => {
     document.title = to.meta.title
   }
   console.log()
-  if (to.path != '/callback') {
+  if (to.path != '/callback' && to.path != '/') {
     Axios
       .post("/api/index", {})
       .then(r => {
         if(r.data.code == 0){
           window.location.href = r.data.url
         }
-        
-
+      
       })
       .catch(error => {
 

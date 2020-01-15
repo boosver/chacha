@@ -26,8 +26,8 @@ export default {
   data() {
     return {
       icon: {
-        active: "http://wx.gkapay.com/images/face.png",
-        inactive: "http://wx.gkapay.com/images/face_hui.png"
+        active: "https://wx.gkapay.com/images/face.png",
+        inactive: "https://wx.gkapay.com/images/face_hui.png"
       }
     };
   },

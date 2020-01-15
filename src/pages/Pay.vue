@@ -1,9 +1,24 @@
 <template>
-  <div>
-    <van-button plain hairline type="info" @click="jssdk(1)">点击查看详情</van-button>
-    <van-button plain hairline type="info" @click="jssdk(2)">2</van-button>
-    <van-button plain hairline type="info" @click="jssdk(3)">3</van-button>
-    <van-button plain hairline type="info" @click="jssdk(4)">4</van-button>
+  <div class="wrapper">
+    <div class="mark">
+      <div class="purple"></div>
+      <img src="../assets/search_background_small.jpg" />
+    </div>
+
+    <div class="search">
+      <h2>欢迎使用我们的服务</h2>
+      <div class="icon_container">
+        <div class="icon_list bgc">
+          <img src="../assets/pay.png" />
+          <p>购买一次查询服务20元</p>
+          <span>
+           <van-button plain hairline type="info" @click="jssdk(20)">点击购买</van-button>
+
+          </span>
+        </div>
+      </div>
+      <br />
+    </div>
   </div>
 </template>
 
@@ -106,3 +121,6 @@ export default {
   }
 };
 </script>
+<style>
+@import "../assets/main.css";
+</style>

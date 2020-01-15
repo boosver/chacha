@@ -1,12 +1,6 @@
 <template>
   <div class="wrapper">
-    <van-notice-bar
-  color="#FF0000"
-  background="#ecf9ff"
-  left-icon="info-o"
->
-  私查查郑重提醒:您上传的图片我们不会保存!
-</van-notice-bar>
+    <van-notice-bar color="#FF0000" background="#ecf9ff" left-icon="info-o">私查查郑重提醒:您上传的图片我们不会保存!</van-notice-bar>
     <div class="mark">
       <div class="purple"></div>
       <img src="../assets/search_background_small.jpg" />
@@ -15,23 +9,26 @@
     <div class="search">
       <h2>私查查搜索</h2>
       <div class="serarch_box" @click="imgUp()">
-        <img src="../assets/icon/weibiaoti1.png" class="search_icon" />
+        <img
+          :src="localIds != null ? localIds : 'http://wx.gkapay.com/images/weibiaoti1.png'"
+          class="search_icon"
+        />
         <span>点击上传人脸照片...</span>
         <img src="../assets/icon/fangdajing.png" class="search_icon" />
       </div>
       <br />
-      <div class="icon_container">
-        <!-- <div class="icon_list bgc">
+      <div class="icon_container" v-for="(item,index) in serchData" :key="index">
+        <br />
+        <div class="icon_list bgc">
           <img src="../assets/jinzhi.png" />
-          <p>相似度80%</p>
+          <p>相似度{{item.similar}}</p>
           <span>
-            <a style="color:#1989fa;">http://www.baidu.com</a>
+            <a style="color:#1989fa;">链接暂时不能查看</a>
             <br />
-			      <br />
-           <van-button plain hairline type="info">点击查看详情</van-button>
-
+            <br />
+            <van-button plain hairline type="info" @click="detail">点击查看详情</van-button>
           </span>
-        </div>-->
+        </div>
       </div>
       <br />
     </div>
@@ -43,14 +40,19 @@
 import wx from "weixin-js-sdk";
 import Tab from "./components/Tab";
 import Vue from "vue";
-import { Button,NoticeBar  } from "vant";
+import { Button, NoticeBar, Dialog, Toast } from "vant";
 import "vant/lib/button/style";
+import "vant/lib/toast/style";
 import "vant/lib/notice-bar/style";
+import "vant/lib/dialog/style";
 Vue.use(Button);
 Vue.use(NoticeBar);
 export default {
   data() {
-    return {};
+    return {
+      localIds: null,
+      serchData: []
+    };
   },
   components: {
     Tab
@@ -106,8 +108,7 @@ export default {
         wx.checkJsApi({
           jsApiList: ["chooseImage", "uploadImage"], // 需要检测的JS接口列表，所有JS接口列表见附录2,
           success: function(res) {
-
-            console.log(res)
+            console.log(res);
             if (res.errMsg == "checkJsApi:ok") {
             }
           }
@@ -119,14 +120,87 @@ export default {
       });
     },
     imgUp() {
+      var _this = this;
       wx.chooseImage({
         count: 1, // 默认9
         sizeType: ["original", "compressed"], // 可以指定是原图还是压缩图，默认二者都有
         sourceType: ["album", "camera"], // 可以指定来源是相册还是相机，默认二者都有
         success: function(res) {
+          console.log(res);
           var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
+
+          wx.getLocalImgData({
+            localId: localIds[0], // 图片的localID
+            success: function(res) {
+              var localIds = res.localData; // localData是图片的base64数据，可以用img标签显示
+              _this.$data.localIds = localIds;
+            }
+          });
+          if (_this.$data.info.second == 0) {
+            Dialog.confirm({
+              title: "上传成功",
+              message:
+                "您还没有查询次数，我们会为您提供初步筛选结果，付费之后我们会为您提供精细筛选和数据清洗比对!",
+              confirmButtonText: "看精细结果",
+              cancelButtonText: "先看看"
+            })
+              .then(() => {
+                _this.$router.push({
+                  path: "/pay"
+                });
+              })
+              .catch(() => {
+                Toast.loading({
+                  message: "正在检索请稍等片刻...",
+                  forbidClick: true,
+                  duration: 10000
+                });
+                setTimeout(function() {
+                  _this.serchDatas();
+                }, 5000);
+
+                // on cancel
+              });
+          } else {
+            _this.serchDatas();
+          }
         }
       });
+    },
+    serchDatas() {
+      this.$ajax
+        .post("/api/serch", {})
+        .then(r => {
+          Toast.clear();
+          if (r.data.code == 0) {
+            Dialog.alert({
+              title: "提示",
+              message: r.data.msg
+            }).then(() => {
+              // on close
+            });
+          } else {
+            this.$data.serchData = r.data;
+          }
+        })
+        .catch(error => {});
+    },
+    detail() {
+      Dialog.confirm({
+        title: "抱歉",
+        message: "详细信息只对我们付费会员开放",
+        confirmButtonText: "立即查看",
+        cancelButtonText: "算了吧"
+      })
+        .then(() => {
+          this.$router.push({
+            path: "/pay"
+          });
+        })
+        .catch(() => {
+          //this.serchDatas();
+          // on cancel
+        });
     }
   }
 };

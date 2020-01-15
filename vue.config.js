@@ -5,7 +5,7 @@ module.exports = {
         proxy: {
             //配置跨域
             '/api': {
-                target: "http://wx.gkapay.com",
+                target: "https://wx.gkapay.com",
                 ws: true,
                 changOrigin: true,
                 pathRewrite: {

@@ -12,7 +12,7 @@ Vue.config.productionTip = false;
  axios.defaults.withCredentials = true
  Vue.prototype.$ajax=axios
 
-Vue.apis = 'http://wx.gkapay.com/'
+Vue.apis = 'https://wx.gkapay.com/'
 new Vue({
   router,
   store,
